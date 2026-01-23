@@ -17,30 +17,41 @@ enum ParamIndex {
 };
 
 std::map<int, std::vector<float>> g_param_map {
-    {1, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -150.0, 150.0, -70.0, 70.0}},
-    {2, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -60.0, 60.0, -60.0, 60.0}},
-    {3, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -60.0, 60.0, -60.0, 60.0}},
-    {4, {0.0, 500.0, 0.0, 50.0, -12.5, 12.5, -18.0, 18.0, -150.0, 150.0, -70.0, 70.0}},
-    {5, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
-    {6, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
-    {7, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -150.0, 150.0, -70.0, 70.0}},
-    {8, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -60.0, 60.0, -60.0, 60.0}},
-    {9, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -60.0, 60.0, -60.0, 60.0}},
-    {10, {0.0, 500.0, 0.0, 50.0, -12.5, 12.5, -18.0, 18.0, -150.0, 150.0, -70.0, 70.0}},
+    {1, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -12.0, 12.0, -10.0, 10.0}},
+
     {11, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
     {12, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
-    {13, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
+    {13, {0.0, 500.0, 0.0, 50.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
     {14, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
     {15, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
-    {16, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
-    {17, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
-    {18, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
-    {19, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
-    {20, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
+    {16, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -12.0, 12.0, -10.0, 10.0}},
+    {17, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -12.0, 12.0, -10.0, 10.0}},
+
     {21, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
-    {22, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
+    {22, {0.0, 500.0, 0.0, 50.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
     {23, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
-};
+    {24, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
+    {25, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -12.0, 30.0, -30.0, 30.0}},
+    {26, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -12.0, 12.0, -10.0, 10.0}},
+    {27, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -12.0, 12.0, -10.0, 10.0}},
+
+    {31, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -120.0, 120.0, -60.0, 60.0}},
+    {32, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
+    {33, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
+
+    {41, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -150.0, 150.0, -70.0, 70.0}},
+    {42, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -120.0, 120.0, -60.0, 60.0}},
+    {43, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -120.0, 120.0, -60.0, 60.0}},
+    {44, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -150.0, 150.0, -70.0, 70.0}},
+    {45, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
+    {46, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
+
+    {51, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -150.0, 150.0, -70.0, 70.0}},
+    {52, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -120.0, 120.0, -60.0, 60.0}},
+    {53, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -120.0, 120.0, -60.0, 60.0}},
+    {54, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -150.0, 150.0, -70.0, 70.0}},
+    {55, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
+    {56, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},};
 
 MotorControl::MotorControl(int motor_num)
     : motor_ins_type(MotorInsType::INS_NONE),
@@ -53,55 +64,55 @@ MotorControl::MotorControl(int motor_num)
 }
 
 // 获取电机ID
-void MotorControl::get_motor_id(EtherCAT_Msg *TxMessage)
+void MotorControl::get_motor_id(EtherCAT_Msg *TxMessage, uint8_t passage)
 {
     motor_ins_type = MotorInsType::INS_GET_ID;
 
     TxMessage->can_ide = 0;
-    TxMessage->motor[0].rtr = 0;
-    TxMessage->motor[0].id = 0x7FF;
-    TxMessage->motor[0].dlc = 4;
+    TxMessage->motor[passage - 1].rtr = 0;
+    TxMessage->motor[passage - 1].id = 0x7FF;
+    TxMessage->motor[passage - 1].dlc = 4;
 
-    TxMessage->motor[0].data[0] = 0xFF;
-    TxMessage->motor[0].data[1] = 0xFF;
-    TxMessage->motor[0].data[2] = 0x00;
-    TxMessage->motor[0].data[3] = 0x82;
+    TxMessage->motor[passage - 1].data[0] = 0xFF;
+    TxMessage->motor[passage - 1].data[1] = 0xFF;
+    TxMessage->motor[passage - 1].data[2] = 0x00;
+    TxMessage->motor[passage - 1].data[3] = 0x82;
 }
 
 // 设置电机ID
-void MotorControl::set_motor_id(EtherCAT_Msg *TxMessage, uint16_t motor_id, uint16_t motor_id_new)
+void MotorControl::set_motor_id(EtherCAT_Msg *TxMessage, uint8_t passage, uint16_t motor_id, uint16_t motor_id_new)
 {
     motor_ins_type = MotorInsType::INS_SET_ID;
 
     TxMessage->can_ide = 0;
-    TxMessage->motor[0].id = 0x7FF;
-    TxMessage->motor[0].dlc = 6;
-    TxMessage->motor[0].rtr = 0;
+    TxMessage->motor[passage - 1].id = 0x7FF;
+    TxMessage->motor[passage - 1].dlc = 6;
+    TxMessage->motor[passage - 1].rtr = 0;
 
-    TxMessage->motor[0].data[0] = motor_id >> 8;
-    TxMessage->motor[0].data[1] = motor_id & 0xFF;
-    TxMessage->motor[0].data[2] = 0x00;
-    TxMessage->motor[0].data[3] = 0x04;
-    TxMessage->motor[0].data[4] = motor_id_new >> 8;
-    TxMessage->motor[0].data[5] = motor_id_new & 0xFF;
+    TxMessage->motor[passage - 1].data[0] = motor_id >> 8;
+    TxMessage->motor[passage - 1].data[1] = motor_id & 0xFF;
+    TxMessage->motor[passage - 1].data[2] = 0x00;
+    TxMessage->motor[passage - 1].data[3] = 0x04;
+    TxMessage->motor[passage - 1].data[4] = motor_id_new >> 8;
+    TxMessage->motor[passage - 1].data[5] = motor_id_new & 0xFF;
 }
 
 // 重置电机ID
-void MotorControl::reset_motor_id(EtherCAT_Msg *TxMessage)
+void MotorControl::reset_motor_id(EtherCAT_Msg *TxMessage, uint8_t passage)
 {
     motor_ins_type = MotorInsType::INS_RESET_ID;
 
     TxMessage->can_ide = 0;
-    TxMessage->motor[0].id = 0x7FF;
-    TxMessage->motor[0].dlc = 6;
-    TxMessage->motor[0].rtr = 0;
+    TxMessage->motor[passage - 1].id = 0x7FF;
+    TxMessage->motor[passage - 1].dlc = 6;
+    TxMessage->motor[passage - 1].rtr = 0;
 
-    TxMessage->motor[0].data[0] = 0x7F;
-    TxMessage->motor[0].data[1] = 0x7F;
-    TxMessage->motor[0].data[2] = 0x00;
-    TxMessage->motor[0].data[3] = 0x05;
-    TxMessage->motor[0].data[4] = 0x7F;
-    TxMessage->motor[0].data[5] = 0x7F;
+    TxMessage->motor[passage - 1].data[0] = 0x7F;
+    TxMessage->motor[passage - 1].data[1] = 0x7F;
+    TxMessage->motor[passage - 1].data[2] = 0x00;
+    TxMessage->motor[passage - 1].data[3] = 0x05;
+    TxMessage->motor[passage - 1].data[4] = 0x7F;
+    TxMessage->motor[passage - 1].data[5] = 0x7F;
 }
 
 // 设置电机零点

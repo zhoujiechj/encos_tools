@@ -133,11 +133,11 @@ public:
     ~MotorControl() = default;
 
     // 读取电机ID
-    void get_motor_id(EtherCAT_Msg *TxMessage);
+    void get_motor_id(EtherCAT_Msg *TxMessage, uint8_t passage);
     // 设置电机新ID
-    void set_motor_id(EtherCAT_Msg *TxMessage, uint16_t motor_id, uint16_t motor_id_new);
+    void set_motor_id(EtherCAT_Msg *TxMessage, uint8_t passage, uint16_t motor_id, uint16_t motor_id_new);
     // 重置电机ID
-    void reset_motor_id(EtherCAT_Msg *TxMessage);
+    void reset_motor_id(EtherCAT_Msg *TxMessage, uint8_t passage);
     // 设置电机零点
     void set_motor_zero(EtherCAT_Msg *TxMessage, uint8_t passage, uint16_t motor_id);
     // 读取电机通信模式

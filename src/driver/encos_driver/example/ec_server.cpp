@@ -1,4 +1,4 @@
-#include "ec_server.h"
+#include "ec_server.hpp"
 
 ec_server::ec_server()
     : Node("ec_server")
@@ -60,8 +60,8 @@ ec_server::~ec_server()
 // 电机ID获取回调函数
 void ec_server::motor_get_id_callback(const encos_driver::msg::MotorGetId::SharedPtr msg)
 {
-    RCLCPP_INFO(this->get_logger(), "Received motor get ID request: ec_id: %d, slave_id: %d",
-                msg->ec_id, msg->slave_id);
+    RCLCPP_INFO(this->get_logger(), "Received motor get ID request: ec_id: %d, slave_id: %d, passage: %d",
+                msg->ec_id, msg->slave_id, msg->passage);
 
     auto it = ec_map.find(msg->ec_id);
     if (it == ec_map.end())
@@ -73,7 +73,7 @@ void ec_server::motor_get_id_callback(const encos_driver::msg::MotorGetId::Share
     ec_info &ec = it->second;
     if (ec.ethercat_ != nullptr)
     {
-        ec.ethercat_->motor_control_->get_motor_id(ec.ec_msgs_[msg->slave_id].get());
+        ec.ethercat_->motor_control_->get_motor_id(ec.ec_msgs_[msg->slave_id].get(), msg->passage);
         send_to_queue(msg->ec_id, msg->slave_id, ec.ec_msgs_[msg->slave_id]);
     }
 }
@@ -81,8 +81,8 @@ void ec_server::motor_get_id_callback(const encos_driver::msg::MotorGetId::Share
 // 电机ID设置回调函数
 void ec_server::motor_set_id_callback(const encos_driver::msg::MotorSetId::SharedPtr msg)
 {
-    RCLCPP_INFO(this->get_logger(), "Received motor set ID request: ec_id: %d, slave_id: %d, motor_id_old: %d, motor_id_new: %d",
-                msg->ec_id, msg->slave_id, msg->motor_id_old, msg->motor_id_new);
+    RCLCPP_INFO(this->get_logger(), "Received motor set ID request: ec_id: %d, slave_id: %d, passage: %d, motor_id_old: %d, motor_id_new: %d",
+                msg->ec_id, msg->slave_id, msg->passage, msg->motor_id_old, msg->motor_id_new);
 
     auto it = ec_map.find(msg->ec_id);
     if (it == ec_map.end())
@@ -94,7 +94,7 @@ void ec_server::motor_set_id_callback(const encos_driver::msg::MotorSetId::Share
     ec_info &ec = it->second;
     if (ec.ethercat_ != nullptr)
     {
-        ec.ethercat_->motor_control_->set_motor_id(ec.ec_msgs_[msg->slave_id].get(), msg->motor_id_old, msg->motor_id_new);
+        ec.ethercat_->motor_control_->set_motor_id(ec.ec_msgs_[msg->slave_id].get(), msg->passage, msg->motor_id_old, msg->motor_id_new);
         send_to_queue(msg->ec_id, msg->slave_id, ec.ec_msgs_[msg->slave_id]);
     }
 }
@@ -102,8 +102,8 @@ void ec_server::motor_set_id_callback(const encos_driver::msg::MotorSetId::Share
 // 电机ID重置回调函数
 void ec_server::motor_reset_id_callback(const encos_driver::msg::MotorResetId::SharedPtr msg)
 {
-    RCLCPP_INFO(this->get_logger(), "Received motor reset ID request: ec_id: %d, slave_id: %d",
-                msg->ec_id, msg->slave_id);
+    RCLCPP_INFO(this->get_logger(), "Received motor reset ID request: ec_id: %d, slave_id: %d, passage: %d",
+                msg->ec_id, msg->slave_id, msg->passage);
 
     auto it = ec_map.find(msg->ec_id);
     if (it == ec_map.end())
@@ -115,7 +115,7 @@ void ec_server::motor_reset_id_callback(const encos_driver::msg::MotorResetId::S
     ec_info &ec = it->second;
     if (ec.ethercat_ != nullptr)
     {
-        ec.ethercat_->motor_control_->reset_motor_id(ec.ec_msgs_[msg->slave_id].get());
+        ec.ethercat_->motor_control_->reset_motor_id(ec.ec_msgs_[msg->slave_id].get(), msg->passage);
         send_to_queue(msg->ec_id, msg->slave_id, ec.ec_msgs_[msg->slave_id]);
     }
 }

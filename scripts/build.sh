@@ -22,6 +22,11 @@ cd ${PROJECT_PATH}
 # 编译程序
 colcon build
 
+# 添加环境库
+find $PROJECT_PATH/install -type d -name lib | sudo tee /etc/ld.so.conf.d/ros2-workspace.conf
+echo "/opt/ros/humble/lib" | sudo tee -a /etc/ld.so.conf.d/ros2-workspace.conf
+sudo ldconfig
+
 # 为soem相关的程序添加权限
 sudo setcap 'cap_net_raw,cap_net_admin+eip' $PROJECT_PATH/install/encos_driver/lib/encos_driver/ec_server
 

@@ -200,15 +200,16 @@ bool EtherCATTransmit::attempt_reconnect()
 bool EtherCATTransmit::ethercat_init(char *ifname)
 {
     int cnt_index = 0;
+    int cnt_num = 3;
     int rc = 0;
     bool result = true;
 
     RCLCPP_INFO(logger_, "[EtherCAT] Initializing EtherCAT");
     check_thread_id += 1;
     osal_thread_create((void *)&checkThread, 128000, (void *)&EtherCATTransmit::ethercat_check_thread, this);
-    for (cnt_index = 1; cnt_index < 3; cnt_index++)
+    for (cnt_index = 0; cnt_index < cnt_num; cnt_index++)
     {
-        RCLCPP_INFO(logger_, "[EtherCAT] Attempting to start EtherCAT, try %d of 10.", cnt_index);
+        RCLCPP_INFO(logger_, "[EtherCAT] Attempting to start EtherCAT, try %d of %d.", cnt_index+1, cnt_num);
         rc = ethercat_init_once(ifname);
         if (rc)
         {

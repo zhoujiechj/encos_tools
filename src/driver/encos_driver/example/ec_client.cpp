@@ -1,4 +1,4 @@
-#include "ec_client.h"
+#include "ec_client.hpp"
 #include <iomanip>
 
 enum ParamIndex
@@ -172,10 +172,10 @@ int main(int argc, char **argv)
         default:
             std::cerr
                 << "Usage:\n"
-                << " : -t get_id -e [ec_id] -s <slave_id>\n"
-                << " : -t set_id -e [ec_id] -s <slave_id> -o <motor_id_old> -n <motor_id_new>\n"
-                << " : -t reset_id -e [ec_id] -s <slave_id>\n"
-                << " : -t set_zero -e [ec_id] -s <slave_id> -m <motor_id>\n"
+                << " : -t get_id -e [ec_id] -s <slave_id> -p <passage>\n"
+                << " : -t set_id -e [ec_id] -s <slave_id> -p <passage> -o <motor_id_old> -n <motor_id_new>\n"
+                << " : -t reset_id -e [ec_id] -s <slave_id> -p <passage>\n"
+                << " : -t set_zero -e [ec_id] -s <slave_id> -p <passage> -m <motor_id>\n"
                 << " : -t get_param -e [ec_id] -s <slave_id> -p <passage> -m <motor_id> -c  <query_code>\n"
                 << " : -t set_param -e [ec_id] -s <slave_id> -p <passage> -m <motor_id> -c  <config_code> -A <param_1> -B <param_2>\n"
                 << " : -t set_tor_pos -e [ec_id] -s <slave_id> -p <passage> -m <motor_id> -k <kp> -d <kd> -l <pos> -v <speed> -u <torque>\n"
@@ -196,6 +196,7 @@ int main(int argc, char **argv)
         encos_driver::msg::MotorGetId msg;
         msg.ec_id = ec_id;
         msg.slave_id = slave_id;
+        msg.passage = passage;
         node->pub_motor_get_id_->publish(msg);
     }
     // 设置电机ID
@@ -204,6 +205,7 @@ int main(int argc, char **argv)
         encos_driver::msg::MotorSetId msg;
         msg.ec_id = ec_id;
         msg.slave_id = slave_id;
+        msg.passage = passage;
         msg.motor_id_old = motor_id_old;
         msg.motor_id_new = motor_id_new;
         node->pub_motor_set_id_->publish(msg);
@@ -214,6 +216,7 @@ int main(int argc, char **argv)
         encos_driver::msg::MotorResetId msg;
         msg.ec_id = ec_id;
         msg.slave_id = slave_id;
+        msg.passage = passage;
         node->pub_motor_reset_id_->publish(msg);
     }
     // 设置电机零点

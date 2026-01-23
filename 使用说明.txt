@@ -1,0 +1,19 @@
+1、进入工程根目录，打开终端，运行编译脚本
+./scripts/build.sh
+
+2、继续运行服务端脚本，其中ens33为更换为具体的网口名称
+source ./install/setup.bash
+ros2 run encos_driver ec_server --ros-args -p net_name:=ens33
+
+3、在工程根目录下，另启终端运行客户端程序，其中xxx为命令类型，命令参数需参考encos提供的技术手册
+source ./install/setup.bash
+ros2 run encos_driver ec_client -t xxx
+
+Usage:
+ : -t get_id -s <slave_id>
+ : -t set_id -s <slave_id> -o <motor_id_old> -n <motor_id_new>
+ : -t reset_id -s <slave_id>
+ : -t set_zero -s <slave_id> -m <motor_id>
+ : -t get_param -s <slave_id> -p <passage> -m <motor_id> -c <query_code>
+ : -t set_param -s <slave_id> -p <passage> -m <motor_id> -c <config_code> -A <param_1> -B <param_2>
+ : -t loop_param
