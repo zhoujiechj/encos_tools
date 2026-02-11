@@ -24,6 +24,7 @@
 #include "encos_driver/msg/motor_set_zero.hpp"
 #include "encos_driver/msg/motor_set_speed.hpp"
 #include "encos_driver/msg/motor_set_pos.hpp"
+#include "encos_driver/msg/motor_set_tor_pos.hpp"
 
 
 class ec_client : public rclcpp::Node
@@ -41,6 +42,7 @@ public:
     rclcpp::Publisher<encos_driver::msg::MotorSetZero>::SharedPtr pub_motor_set_zero_;   // 发布电机零位设置请求
     rclcpp::Publisher<encos_driver::msg::MotorSetSpeed>::SharedPtr pub_motor_set_speed_; // 发布电机速度设置请求
     rclcpp::Publisher<encos_driver::msg::MotorSetPos>::SharedPtr pub_motor_set_pos_;     // 发布电机位置设置请求
+    rclcpp::Publisher<encos_driver::msg::MotorSetTorPos>::SharedPtr pub_motor_set_tor_pos_; // 发布电机力位混控设置请求
 };
 
 #endif

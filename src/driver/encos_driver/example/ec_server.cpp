@@ -14,7 +14,7 @@ ec_server::ec_server()
     {
         ec_info &ec = it->second;
         ec.slave_num_ = 1;
-        ec.motor_num_ = 6;
+        ec.motor_num_ = 100;
         ec.ec_msgs_.resize(ec.slave_num_);
         for (int i = 0; i < ec.slave_num_; i++)
         {
@@ -51,6 +51,8 @@ ec_server::ec_server()
         "/motor_set_speed", qos, std::bind(&ec_server::motor_set_speed_callback, this, std::placeholders::_1));
     sub_motor_set_pos_ = this->create_subscription<encos_driver::msg::MotorSetPos>(
         "/motor_set_pos", qos, std::bind(&ec_server::motor_set_pos_callback, this, std::placeholders::_1));
+    sub_motor_set_tor_pos_ = this->create_subscription<encos_driver::msg::MotorSetTorPos>(
+        "/motor_set_tor_pos", qos, std::bind(&ec_server::motor_set_tor_pos_callback, this, std::placeholders::_1));
 }
 
 ec_server::~ec_server()
@@ -310,6 +312,27 @@ void ec_server::motor_set_pos_callback(const encos_driver::msg::MotorSetPos::Sha
     if (ec.ethercat_ != nullptr)
     {
         ec.ethercat_->motor_control_->set_motor_pos(ec.ec_msgs_[msg->slave_id].get(), msg->passage, msg->motor_id, msg->position, msg->speed, msg->current, 1);
+        send_to_queue(msg->ec_id, msg->slave_id, ec.ec_msgs_[msg->slave_id]);
+    }
+}
+
+// 电机力位混控回调函数
+void ec_server::motor_set_tor_pos_callback(const encos_driver::msg::MotorSetTorPos::SharedPtr msg)
+{
+    RCLCPP_INFO(this->get_logger(), "Received motor set tor pos request: ec_id:%d, slave_id: %d, passage: %d, motor_id: %d, kp: %f, kd: %f, position: %f, speed: %f, torque: %f",
+                msg->ec_id, msg->slave_id, msg->passage, msg->motor_id, msg->kp, msg->kd, msg->position, msg->speed, msg->torque);
+
+    auto it = ec_map.find(msg->ec_id);
+    if (it == ec_map.end())
+    {
+        RCLCPP_ERROR(this->get_logger(), "Invalid ec_id: %d", msg->ec_id);
+        return;
+    }
+
+    ec_info &ec = it->second;
+    if (ec.ethercat_ != nullptr)
+    {
+        ec.ethercat_->motor_control_->set_motor_tor_pos(ec.ec_msgs_[msg->slave_id].get(), msg->passage, msg->motor_id, msg->kp, msg->kd, msg->position, msg->speed, msg->torque);
         send_to_queue(msg->ec_id, msg->slave_id, ec.ec_msgs_[msg->slave_id]);
     }
 }

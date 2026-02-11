@@ -23,6 +23,7 @@
 #include "encos_driver/msg/motor_set_zero.hpp"
 #include "encos_driver/msg/motor_set_speed.hpp"
 #include "encos_driver/msg/motor_set_pos.hpp"
+#include "encos_driver/msg/motor_set_tor_pos.hpp"
 
 class ec_info
 {
@@ -66,6 +67,8 @@ private:
     void motor_set_speed_callback(const encos_driver::msg::MotorSetSpeed::SharedPtr msg);
     // 电机位置回调函数
     void motor_set_pos_callback(const encos_driver::msg::MotorSetPos::SharedPtr msg);
+    // 电机力位混控回调函数
+    void motor_set_tor_pos_callback(const encos_driver::msg::MotorSetTorPos::SharedPtr msg);
 
     // 推送至发送队列
     void send_to_queue(int ec_id, int slave_id, const EtherCAT_Msg_ptr &msg);
@@ -81,6 +84,7 @@ private:
     rclcpp::Subscription<encos_driver::msg::MotorSetZero>::SharedPtr sub_motor_set_zero_;   // 订阅设置电机零位消息
     rclcpp::Subscription<encos_driver::msg::MotorSetSpeed>::SharedPtr sub_motor_set_speed_; // 订阅设置电机速度消息
     rclcpp::Subscription<encos_driver::msg::MotorSetPos>::SharedPtr sub_motor_set_pos_;     // 订阅设置电机位置消息
+    rclcpp::Subscription<encos_driver::msg::MotorSetTorPos>::SharedPtr sub_motor_set_tor_pos_; // 订阅设置电机力位混控消息
 };
 
 #endif

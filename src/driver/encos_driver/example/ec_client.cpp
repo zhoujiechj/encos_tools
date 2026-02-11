@@ -38,6 +38,8 @@ std::map<int, std::vector<int>> g_param_map{
     {21, {3, 4, 10}},
     {22, {3, 5, 11}},
     {23, {3, 6, 12}},
+    {24, {0, 1, 25}},
+    {25, {0, 1, 65}},
 };
 
 ec_client::ec_client()
@@ -63,6 +65,8 @@ ec_client::ec_client()
     pub_motor_set_speed_ = this->create_publisher<encos_driver::msg::MotorSetSpeed>("/motor_set_speed", qos);
     // 发布电机位置设置请求
     pub_motor_set_pos_ = this->create_publisher<encos_driver::msg::MotorSetPos>("/motor_set_pos", qos);
+    // 发布电机力位混合模式设置请求
+    pub_motor_set_tor_pos_ = this->create_publisher<encos_driver::msg::MotorSetTorPos>("/motor_set_tor_pos", qos);
 }
 
 ec_client::~ec_client()
@@ -302,6 +306,20 @@ int main(int argc, char **argv)
         msg.current = current;
         msg.ack_status = 1;
         node->pub_motor_set_pos_->publish(msg);
+    }
+    else if (type == "set_tor_pos")
+    {
+        encos_driver::msg::MotorSetTorPos msg;
+        msg.ec_id = ec_id;
+        msg.slave_id = slave_id;
+        msg.passage = passage;
+        msg.motor_id = motor_id;
+        msg.kp = kp;
+        msg.kd = kd;
+        msg.position = position;
+        msg.speed = speed;
+        msg.torque = torque;
+        node->pub_motor_set_tor_pos_->publish(msg);
     }
     // 电机正负旋转测试
     else if (type == "swing_test")

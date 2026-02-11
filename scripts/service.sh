@@ -22,4 +22,5 @@ cd ${PROJECT_PATH}
 # 运行服务端脚本
 source ./install/setup.bash
 ros2 run encos_driver ec_server --ros-args -p net_name:=enx00e04c36b33e
+# ros2 run encos_driver ec_server --ros-args -p net_name:=ens33
 
