@@ -16,11 +16,10 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # 工程路径
 PROJECT_PATH=${SCRIPT_DIR}/..
 
-# 切换路径
-cd ${PROJECT_PATH}
+# 加载ros环境
+source $PROJECT_PATH/install/setup.bash
 
 # 运行服务端脚本
-source ./install/setup.bash
-ros2 run encos_driver ec_server --ros-args -p net_name:=enx00e04c36b33e
-# ros2 run encos_driver ec_server --ros-args -p net_name:=ens33
+# ros2 run encos_driver ec_server --ros-args -p net_name:=enx00e04c36b33e
+ros2 run encos_driver ec_server --ros-args -p net_name:=ens33
 
