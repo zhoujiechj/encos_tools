@@ -70,6 +70,7 @@ if [[ -z "${NET_NAME}" ]]; then
     exit 1
 fi
 
+# 删除ec_server
 pkill -f ec_server || true
 
 # ===================== 基础配置 =====================
@@ -133,6 +134,7 @@ MOTOR_ID=(
 
 # 全局 PID
 EC_SERVER_PID=""
+CLEANED_UP=0
 
 # ===================== 服务控制 =====================
 start_server() {
@@ -142,7 +144,7 @@ start_server() {
     echo "        网口: ${NET_NAME}"
     echo -e "=============================================\n"
 
-    ros2 run encos_driver ec_server --ros-args -p net_name:="${NET_NAME}" &
+    setsid ros2 run encos_driver ec_server --ros-args -p net_name:="${NET_NAME}" &
     EC_SERVER_PID=$!
     if ps -p "${EC_SERVER_PID}" &>/dev/null; then
         echo "✅ 服务端启动成功 PID: ${EC_SERVER_PID}"
@@ -154,11 +156,43 @@ start_server() {
 }
 
 stop_server() {
-    if [[ -n "${EC_SERVER_PID}" && -d "/proc/${EC_SERVER_PID}" ]]; then
-        kill "${EC_SERVER_PID}" &>/dev/null || true
-        wait "${EC_SERVER_PID}" 2>/dev/null || true
-        echo -e "\n🛑 服务端已安全停止"
+    # 防止 EXIT、INT、TERM 多次触发时重复清理
+    if [[ "${CLEANED_UP}" -eq 1 ]]; then
+        return
     fi
+    CLEANED_UP=1
+
+    echo -e "\n🧹 正在清理 ec_server..."
+
+    if [[ -n "${EC_SERVER_PID}" ]]; then
+        # 优先按进程组清理：setsid 启动后，ec_server 会在独立进程组中
+        kill -TERM -- "-${EC_SERVER_PID}" 2>/dev/null || true
+        kill -TERM "${EC_SERVER_PID}" 2>/dev/null || true
+        sleep 1
+
+        # 如果仍有残留，再强制清理
+        kill -KILL -- "-${EC_SERVER_PID}" 2>/dev/null || true
+        kill -KILL "${EC_SERVER_PID}" 2>/dev/null || true
+
+        wait "${EC_SERVER_PID}" 2>/dev/null || true
+    fi
+
+    # 兜底：防止 ros2 run 或 ec_server 子进程残留
+    pkill -f "ros2 run encos_driver ec_server" 2>/dev/null || true
+    pkill -x "ec_server" 2>/dev/null || true
+    pkill -f "encos_driver.*ec_server" 2>/dev/null || true
+
+    echo "🛑 ec_server 已停止"
+}
+
+handle_interrupt() {
+    stop_server
+    echo -e "\n👋 捕获 Ctrl+C，程序已安全退出"
+    exit 130
+}
+
+handle_exit() {
+    stop_server
 }
 
 # ===================== 工具函数 =====================
@@ -363,7 +397,6 @@ main_menu() {
             ;;
 
         q|Q)
-            stop_server
             echo -e "\n👋 程序已安全退出"
             exit 0
             ;;
@@ -376,7 +409,8 @@ main_menu() {
 }
 
 # ===================== 入口 =====================
-trap stop_server EXIT
+trap handle_exit EXIT
+trap handle_interrupt INT TERM
 start_server
 
 while true; do
