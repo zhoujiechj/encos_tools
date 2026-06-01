@@ -13,7 +13,7 @@ ec_server::ec_server()
     for (std::map<int, ec_info>::iterator it = ec_map.begin(); it != ec_map.end(); ++it)
     {
         ec_info &ec = it->second;
-        ec.slave_num_ = 1;
+        ec.slave_num_ = 5;
         ec.motor_num_ = 100;
         ec.ec_msgs_.resize(ec.slave_num_);
         for (int i = 0; i < ec.slave_num_; i++)

@@ -12,7 +12,7 @@ set -eo pipefail
 #   ./run_ec_calib.sh --mode robot --net enx00e04c36b33e
 
 MODE="robot"
-NET_NAME="enx00e04c36b33e"
+NET_NAME="enp1s0f3"
 
 usage() {
     cat <<USAGE
@@ -235,9 +235,9 @@ get_pos() {
     echo "${output}"
 
     # 提取数字（自动适配驱动输出格式）
-    local pos
-    pos=$(echo "${output}" | grep -oE '[+-]?[0-9]+\.[0-9]+' | head -1)
-    echo "${pos}"
+    # local pos
+    # pos=$(echo "${output}" | grep -oE '[+-]?[0-9]+\.[0-9]+' | head -1)
+    # echo "${pos}"
 }
 
 # 关节标零
