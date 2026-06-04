@@ -18,7 +18,7 @@ enum ParamIndex {
 
 std::map<int, std::vector<float>> g_param_map {
     {1, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -12.0, 12.0, -10.0, 10.0}},
-
+    {2, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -12.0, 12.0, -10.0, 10.0}},
     {11, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
     {12, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
     {13, {0.0, 500.0, 0.0, 5.0, -12.5, 12.5, -18.0, 18.0, -30.0, 30.0, -30.0, 30.0}},
@@ -479,7 +479,8 @@ void MotorControl::set_motor_tor_pos(EtherCAT_Msg *TxMessage, uint8_t passage, u
     pos_int = math_ops_.float_to_uint(pos, params[POS_MIN], params[POS_MAX], 16);
     spd_int = math_ops_.float_to_uint(spd, params[SPD_MIN], params[SPD_MAX], 12);
     tor_int = math_ops_.float_to_uint(tor, params[TOR_MIN], params[TOR_MAX], 12);
-    printf("kp_int:%d, kd_int:%d, pos_int:%d, spd_int:%d, tor_int:%d\n", kp_int, kd_int, pos_int, spd_int, tor_int);
+
+    // printf("kp_int:%d, kd_int:%d, pos_int:%d, spd_int:%d, tor_int:%d\n", kp_int, kd_int, pos_int, spd_int, tor_int);
 
     TxMessage->motor[passage - 1].data[0] = 0x00 | (kp_int >> 7);
     TxMessage->motor[passage - 1].data[1] = ((kp_int & 0x7F) << 1) | ((kd_int & 0x100) >> 8);
