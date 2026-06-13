@@ -206,6 +206,11 @@ check_valid_slave_id() {
     [[ "${slave_id}" =~ ^[0-9]+$ ]]
 }
 
+check_valid_passage() {
+    local passage="$1"
+    [[ "${passage}" =~ ^[0-9]+$ ]]
+}
+
 check_valid_motor_id() {
     local motor_id="$1"
     [[ "${motor_id}" =~ ^[0-9]+$ ]]
@@ -293,11 +298,17 @@ get_motor_id() {
 # 设置指定从站下的电机 ID
 set_motor_id() {
     local slave_id="$1"
-    local motor_id_old="$2"
-    local motor_id_new="$3"
+    local passage="$2"
+    local motor_id_old="$3"
+    local motor_id_new="$4"
 
     if ! check_valid_slave_id "${slave_id}"; then
         echo "❌ 无效 slave_id！请输入非负整数"
+        return 1
+    fi
+    
+    if ! check_valid_passage "${passage}"; then
+        echo "❌ 无效 passage！请输入非负整数"
         return 1
     fi
 
@@ -319,12 +330,20 @@ set_motor_id() {
     echo -e "============================================="
     echo "              🆔 设置电机 ID"
     echo "              slave_id: ${slave_id}"
+    echo "              passage:  ${passage}"
     echo "              old_id:   ${motor_id_old}"
     echo "              new_id:   ${motor_id_new}"
     echo -e "============================================="
 
-    local cmd="ros2 run encos_driver ec_client -t set_id -s ${slave_id} -o ${motor_id_old} -n ${motor_id_new}"
+    local cmd="ros2 run encos_driver ec_client -t set_id -s ${slave_id} -p ${passage} -o ${motor_id_old} -n ${motor_id_new}"
     echo "[命令] ${cmd}"
+    ${cmd}
+    
+    sleep 1
+    
+    local cmd="ros2 run encos_driver ec_client -t get_id -s ${slave_id}"
+    echo "[命令] ${cmd}"
+    ${cmd}
     ${cmd}
 }
 
@@ -391,9 +410,10 @@ main_menu() {
 
         4)
             read -r -p "输入 slave_id: " slave_id
+            read -r -p "输入 passage: " passage
             read -r -p "输入当前/旧 motor_id: " motor_id_old
             read -r -p "输入目标/新 motor_id: " motor_id_new
-            set_motor_id "${slave_id}" "${motor_id_old}" "${motor_id_new}"
+            set_motor_id "${slave_id}" "${passage}" "${motor_id_old}" "${motor_id_new}"
             ;;
 
         q|Q)

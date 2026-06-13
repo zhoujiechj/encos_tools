@@ -2,7 +2,7 @@
 
 # 默认密码
 # PASSWD="cx125"
-PASSWD="123456"
+PASSWD="admin"
 
 # 缓存密码
 echo ${PASSWD} | sudo -S pwd
