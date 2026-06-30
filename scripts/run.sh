@@ -13,22 +13,25 @@ set -eo pipefail
 
 MODE="robot"
 NET_NAME="enp1s0f3"
+RMW="cyclonedds"
 
 usage() {
     cat <<USAGE
-用法: $0 [robot|single] [--mode robot|single] [--net 网卡名]
+用法: $0 [robot|single] [--mode robot|single] [--net 网卡名] [--fastdds|--cyclonedds]
 
 参数:
   robot              使用机器人整机从站配置，默认值
   single             使用单板/单从站配置，SLAVE_ID 全部为 0
   -m, --mode MODE    指定模式: robot 或 single
   -n, --net NAME     指定以太网网卡名称，默认: ${NET_NAME}
+  --cyclonedds       使用 CycloneDDS RMW（默认）
+  --fastdds          使用 FastDDS RMW
   -h, --help         查看帮助
 
 示例:
   $0
   $0 single
-  $0 --mode robot --net enx00e04c36b33e
+  $0 --mode robot --net enx00e04c36b33e --fastdds
 USAGE
 }
 
@@ -45,6 +48,14 @@ while [[ $# -gt 0 ]]; do
         -n|--net)
             NET_NAME="${2:-}"
             shift 2
+            ;;
+        --cyclonedds)
+            RMW="cyclonedds"
+            shift
+            ;;
+        --fastdds)
+            RMW="fastdds"
+            shift
             ;;
         -h|--help)
             usage
@@ -70,12 +81,38 @@ if [[ -z "${NET_NAME}" ]]; then
     exit 1
 fi
 
+if [[ "${RMW}" != "cyclonedds" && "${RMW}" != "fastdds" ]]; then
+    echo "❌ RMW 只能是 cyclonedds 或 fastdds，当前: ${RMW}"
+    usage
+    exit 1
+fi
+
 # 删除ec_server
 pkill -f ec_server || true
 
 # ===================== 基础配置 =====================
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 PROJECT_PATH="${SCRIPT_DIR}/.."
+
+setup_rmw() {
+    case "${RMW}" in
+        cyclonedds)
+            export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+            export CYCLONEDDS_URI="file://${PROJECT_PATH}/config/cyclonedds_localhost.xml"
+            unset FASTRTPS_DEFAULT_PROFILES_FILE
+            unset FASTDDS_DEFAULT_PROFILES_FILE
+            unset RMW_FASTRTPS_USE_QOS_FROM_XML
+            unset RMW_FASTRTPS_USE_SHM
+            unset FASTDDS_BUILTIN_TRANSPORTS
+            ;;
+        fastdds)
+            unset RMW_IMPLEMENTATION
+            unset CYCLONEDDS_URI
+            ;;
+    esac
+}
+setup_rmw
+
 source "${PROJECT_PATH}/install/setup.bash"
 
 # ===================== 关节配置数组 =====================
@@ -112,15 +149,29 @@ else
     )
 fi
 
-PASSAGE=(
-    "IGNORE"
-    4 5
-    2 1 2 3 4 5 6
-    3 1 2 3 4 5 6
-    "" "" 6
-    1 2 3 4 5 6
-    1 2 3 4 5 6
+
+
+if [[ "${MODE}" == "robot" ]]; then
+    PASSAGE=(
+        "IGNORE"
+        4 5
+        2 1 2 3 4 5 6
+        3 1 2 3 4 5 6
+        "" "" 6
+        1 2 3 4 5 6
+        1 2 3 4 5 6
 )
+else
+    PASSAGE=(
+        "IGNORE"
+        1 1
+        1 1 1 1 1 1 1
+        1 1 1 1 1 1 1
+        "" "" 1
+        1 1 1 1 1 1
+        1 1 1 1 1 1
+)
+fi
 
 MOTOR_ID=(
     "IGNORE"

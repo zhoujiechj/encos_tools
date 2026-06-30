@@ -25,6 +25,7 @@ colcon build
 # 添加环境库
 find $PROJECT_PATH/install -type d -name lib | sudo tee /etc/ld.so.conf.d/ros2-workspace.conf
 echo "/opt/ros/humble/lib" | sudo tee -a /etc/ld.so.conf.d/ros2-workspace.conf
+echo "/opt/ros/humble/lib/x86_64-linux-gnu" | sudo tee -a /etc/ld.so.conf.d/ros2-workspace.conf
 sudo ldconfig
 
 # 为soem相关的程序添加权限
