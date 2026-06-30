@@ -13,7 +13,7 @@ set -eo pipefail
 
 MODE="robot"
 NET_NAME="enp1s0f3"
-RMW="cyclonedds"
+RMW="fastdds"
 
 usage() {
     cat <<USAGE
@@ -24,8 +24,8 @@ usage() {
   single             使用单板/单从站配置，SLAVE_ID 全部为 0
   -m, --mode MODE    指定模式: robot 或 single
   -n, --net NAME     指定以太网网卡名称，默认: ${NET_NAME}
-  --cyclonedds       使用 CycloneDDS RMW（默认）
-  --fastdds          使用 FastDDS RMW
+  --cyclonedds       使用 CycloneDDS RMW
+  --fastdds          使用 FastDDS RMW（默认）
   -h, --help         查看帮助
 
 示例:
